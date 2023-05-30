@@ -4811,6 +4811,15 @@ input, select, textarea {
 		padding-top: 2rem;
 	}
 
+	#danny {
+		width: 65% !important;
+		margin: 0 auto;
+	}
+
+	#ytb {
+		width: 70% !important;
+		margin: 0 auto 40px auto;
+	}
 .split.contact {
 	text-align: center;
 	border-top: 0 !important;
