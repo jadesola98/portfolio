@@ -18,6 +18,14 @@
     --accent: #2C52C4;
     --accent-soft: #DEE6FB;
     --zone: #E7EBEF;
+    --band: #1F3FA8;
+    --band-ink: #FFFFFF;
+    --band-soft: #D6E0FF;
+    --aws-bg: #FFF1DE; --aws-line: #EDBF80;
+    --snow-bg: #E2F3FB; --snow-line: #8FCBE6;
+    --py-bg: #FFF7D1; --py-line: #E0CB66;
+    --pg-bg: #E6ECFA; --pg-line: #A3B4E3;
+    --st-bg: #FDE7EA; --st-line: #EDA3AD;
     --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
     box-sizing: border-box;
@@ -29,11 +37,19 @@
     :root:not([data-theme="light"]) {
       --paper: #121820; --surface: #1A222C; --ink: #E4EAF0; --muted: #9AA8B6;
       --line: #344251; --accent: #8EA9F3; --accent-soft: #23315A; --zone: #18202A;
+      --band: #192C70; --band-ink: #F2F5FF; --band-soft: #B9C7F5;
+      --aws-bg: #2D2417; --aws-line: #6E5430; --snow-bg: #15293A; --snow-line: #2E5B79;
+      --py-bg: #2A2814; --py-line: #635A26; --pg-bg: #1A2341; --pg-line: #3A4E8C;
+      --st-bg: #321A1E; --st-line: #73353F;
     }
   }
   :root[data-theme="dark"] {
     --paper: #121820; --surface: #1A222C; --ink: #E4EAF0; --muted: #9AA8B6;
     --line: #344251; --accent: #8EA9F3; --accent-soft: #23315A; --zone: #18202A;
+      --band: #192C70; --band-ink: #F2F5FF; --band-soft: #B9C7F5;
+      --aws-bg: #2D2417; --aws-line: #6E5430; --snow-bg: #15293A; --snow-line: #2E5B79;
+      --py-bg: #2A2814; --py-line: #635A26; --pg-bg: #1A2341; --pg-line: #3A4E8C;
+      --st-bg: #321A1E; --st-line: #73353F;
   }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
   *, *::before, *::after { box-sizing: inherit; }
@@ -50,7 +66,8 @@
   .wrap { max-width: 50rem; margin: 0 auto; padding: 0 1.5rem; }
 
   /* Header */
-  header.intro { padding: 5rem 0 3rem; }
+  header.intro { background: var(--band); color: var(--band-ink); padding: 5rem 0 3.5rem; margin-bottom: 0.5rem; }
+  header.intro .lede { color: var(--band-soft); }
   .name {
     font-size: clamp(2.6rem, 8vw, 4.75rem); font-weight: 800; line-height: 0.98;
     letter-spacing: -0.035em; margin: 0 0 1.5rem;
@@ -65,7 +82,7 @@
   .project h3.project-title { font-size: clamp(1.35rem, 3.2vw, 1.7rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 0.75rem; font-weight: 700; }
   .project .summary { max-width: 40rem; margin: 0 0 0.75rem; }
   .stack { color: var(--muted); font-size: 0.95rem; margin: 0 0 1.75rem; }
-  .project h4 { font-size: 1.15rem; margin: 2.25rem 0 0.75rem; font-weight: 700; letter-spacing: -0.01em; }
+  .project h4 { color: var(--accent); font-size: 1.15rem; margin: 2.25rem 0 0.75rem; font-weight: 700; letter-spacing: -0.01em; }
 
   /* Pipeline diagram: the one bold element */
   .flow { display: grid; gap: 1rem; grid-template-columns: 1fr; margin: 0; }
@@ -74,6 +91,11 @@
     .flow.three { grid-template-columns: repeat(3, 1fr); }
   }
   .zone { background: var(--zone); border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem 0.9rem 1rem; }
+  .z-aws { background: var(--aws-bg); border-color: var(--aws-line); }
+  .z-snow { background: var(--snow-bg); border-color: var(--snow-line); }
+  .z-py { background: var(--py-bg); border-color: var(--py-line); }
+  .z-pg { background: var(--pg-bg); border-color: var(--pg-line); }
+  .z-st { background: var(--st-bg); border-color: var(--st-line); }
   .zone-name { font-weight: 700; font-size: 0.95rem; margin: 0 0 0.15rem; }
   .zone-note { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.9rem; line-height: 1.4; }
   .zone ol { list-style: none; margin: 0; padding: 0; }
@@ -120,15 +142,14 @@
   section.background p { max-width: 40rem; margin: 0 0 1rem; }
 
   /* Section blocks */
-  section.block { border-top: 2px solid var(--ink); padding: 2.5rem 0 3rem; }
-  section.block h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0 0 1.25rem; letter-spacing: -0.02em; line-height: 1.15; font-weight: 700; }
+  section.block { border-top: 3px solid var(--accent); padding: 2.5rem 0 3rem; }
+  section.block h2 { color: var(--accent); font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0 0 1.25rem; letter-spacing: -0.02em; line-height: 1.15; font-weight: 700; }
+  main > section.block:first-child { border-top: 0; }
   section.projects-head { padding-bottom: 0.5rem; }
   section.projects-head h2 { margin-bottom: 0; }
 
   /* About */
   .about-body { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
-  @media (min-width: 640px) { .about-body.has-photo { grid-template-columns: 10rem 1fr; gap: 2rem; } }
-  .about-photo { width: 10rem; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: var(--zone); display: block; }
   .about-text p { margin: 0 0 1rem; max-width: 38rem; }
   .about-text .links { margin-top: 1.25rem; }
 
@@ -137,27 +158,27 @@
   dl.toolset > div { display: grid; grid-template-columns: 1fr; gap: 0.1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
   dl.toolset > div:first-child { border-top: 1px solid var(--line); }
   @media (min-width: 640px) { dl.toolset > div { grid-template-columns: 13rem 1fr; gap: 1rem; } }
-  dl.toolset dt { font-weight: 700; }
+  dl.toolset dt { font-weight: 700; color: var(--accent); }
   dl.toolset dd { margin: 0; }
 
   footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(--muted); font-size: 0.92rem; }
 </style>
 </head>
 <body>
-<div class="wrap">
-
-  <header class="intro">
+<header class="intro">
+  <div class="wrap">
     <h1 class="name">Ayomide<br>Alayande</h1>
-    <p class="lede">Data engineer. I build pipelines and warehouse models.</p>
-  </header>
+    <p class="lede">Data engineer. I build pipelines and warehouse models with SQL and Python.</p>
+  </div>
+</header>
+
+<div class="wrap">
 
   <main>
 
     <section class="block about" id="about">
       <h2>About me</h2>
-      <div class="about-body has-photo">
-        <img class="about-photo" src="images/cropped_1.jpg" alt="Photo of Ayomide Alayande" width="160" height="160"
-             onerror="this.parentNode.classList.remove('has-photo'); this.remove();">
+      <div class="about-body">
         <div class="about-text">
           <p>I'm a data engineer who came up through analytics. I know what it takes to turn raw, messy source data into numbers people can trust, and I've worked on both ends of that: the pipelines and models underneath, and the dashboards people actually read.</p>
           <p>I have a master's in data science and a Google Cloud data engineering certification. I'm looking for hands-on Data Engineer and Analytics Engineer roles, where I can keep building pipelines and data models.</p>
@@ -176,9 +197,7 @@
         <div><dt>Languages</dt><dd>SQL, Python</dd></div>
         <div><dt>Warehouses and databases</dt><dd>Snowflake, Amazon Redshift, PostgreSQL, SQL Server</dd></div>
         <div><dt>Transformation</dt><dd>dbt, Snowflake streams and tasks, pandas</dd></div>
-        <div><dt>Cloud</dt><dd>AWS (S3, Lambda, SQS, CloudWatch), Azure Data Factory</dd></div>
         <div><dt>BI and apps</dt><dd>Power BI, Metabase, Streamlit, Plotly</dd></div>
-        <div><dt>Python libraries</dt><dd>Requests, SQLAlchemy</dd></div>
         <div><dt>Version control</dt><dd>Git, GitHub</dd></div>
       </dl>
     </section>
@@ -194,7 +213,7 @@
 
       <figure style="margin:0">
         <div class="flow two">
-          <div class="zone">
+          <div class="zone z-aws">
             <p class="zone-name">AWS</p>
             <p class="zone-note">Files arrive and S3 announces them.</p>
             <ol>
@@ -203,7 +222,7 @@
               <li><span class="node"><strong>SQS queue</strong><span>receives the S3 event notification</span></span></li>
             </ol>
           </div>
-          <div class="zone">
+          <div class="zone z-snow">
             <p class="zone-name">Snowflake</p>
             <p class="zone-note">Snowpipe listens to the queue; tasks do the rest.</p>
             <ol>
@@ -263,7 +282,7 @@
 
       <figure style="margin:0">
         <div class="flow three">
-          <div class="zone">
+          <div class="zone z-py">
             <p class="zone-name">Python</p>
             <p class="zone-note">Extract, transform, load.</p>
             <ol>
@@ -272,7 +291,7 @@
               <li><span class="node"><strong>Load</strong><span>SQLAlchemy, one transaction</span></span></li>
             </ol>
           </div>
-          <div class="zone">
+          <div class="zone z-pg">
             <p class="zone-name">PostgreSQL</p>
             <p class="zone-note">Storage and ranking logic.</p>
             <ol>
@@ -280,7 +299,7 @@
               <li><span class="node model"><strong>ranked view</strong><span>points, then goal difference, then goals scored</span></span></li>
             </ol>
           </div>
-          <div class="zone">
+          <div class="zone z-st">
             <p class="zone-name">Streamlit</p>
             <p class="zone-note">What a viewer sees.</p>
             <ol>
