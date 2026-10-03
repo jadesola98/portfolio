@@ -1,274 +1,321 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Ayomide Alayande Portfolio</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-    />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ayomide Alayande: data engineering projects</title>
+<meta name="description" content="Data engineering projects by Ayomide Alayande: event-driven ingestion into Snowflake and an API-to-PostgreSQL pipeline with a Streamlit dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F4F6;
+    --surface: #FFFFFF;
+    --ink: #17212C;
+    --muted: #556474;
+    --line: #C7D0D9;
+    --accent: #2C52C4;
+    --accent-soft: #DEE6FB;
+    --zone: #E7EBEF;
+    --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #121820; --surface: #1A222C; --ink: #E4EAF0; --muted: #9AA8B6;
+      --line: #344251; --accent: #8EA9F3; --accent-soft: #23315A; --zone: #18202A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #121820; --surface: #1A222C; --ink: #E4EAF0; --muted: #9AA8B6;
+    --line: #344251; --accent: #8EA9F3; --accent-soft: #23315A; --zone: #18202A;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  code { font-family: var(--mono); font-size: 0.86em; }
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+  .wrap { max-width: 50rem; margin: 0 auto; padding: 0 1.5rem; }
 
-				<!-- Intro -->
-					<div id="intro">
-						<h1>Ayomide Alayande<br />
-							Portfolio</h1>
-						<p>Data Analyst | Data Engineer</a>.</p>
-						<p>"Data is like the air we breathe. I am the person who make sure it’s clean and breathable."</p>
-						<ul class="actions">
-							<li id="movedown"><a  class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
+  /* Header */
+  header.intro { padding: 5rem 0 3rem; }
+  .name {
+    font-size: clamp(2.6rem, 8vw, 4.75rem); font-weight: 800; line-height: 0.98;
+    letter-spacing: -0.035em; margin: 0 0 1.5rem;
+  }
+  .lede { font-size: 1.3rem; line-height: 1.45; max-width: 34rem; margin: 0; font-weight: 500; }
+  .intro p.sub { color: var(--muted); max-width: 36rem; margin: 0 0 1.5rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0; padding: 0; list-style: none; font-weight: 600; }
+
+  /* Projects */
+  article.project { border-top: 1px solid var(--line); padding: 2.5rem 0 3.5rem; }
+  section.projects-head + article.project { border-top: 0; padding-top: 1.5rem; }
+  .project h3.project-title { font-size: clamp(1.35rem, 3.2vw, 1.7rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 0.75rem; font-weight: 700; }
+  .project .summary { max-width: 40rem; margin: 0 0 0.75rem; }
+  .stack { color: var(--muted); font-size: 0.95rem; margin: 0 0 1.75rem; }
+  .project h4 { font-size: 1.15rem; margin: 2.25rem 0 0.75rem; font-weight: 700; letter-spacing: -0.01em; }
+
+  /* Pipeline diagram: the one bold element */
+  .flow { display: grid; gap: 1rem; grid-template-columns: 1fr; margin: 0; }
+  @media (min-width: 640px) {
+    .flow.two { grid-template-columns: 1fr 1.25fr; }
+    .flow.three { grid-template-columns: repeat(3, 1fr); }
+  }
+  .zone { background: var(--zone); border: 1px solid var(--line); border-radius: 10px; padding: 0.9rem 0.9rem 1rem; }
+  .zone-name { font-weight: 700; font-size: 0.95rem; margin: 0 0 0.15rem; }
+  .zone-note { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.9rem; line-height: 1.4; }
+  .zone ol { list-style: none; margin: 0; padding: 0; }
+  .zone li { position: relative; }
+  .zone li + li { margin-top: 1.4rem; }
+  .zone li + li::before {
+    content: ""; position: absolute; left: 50%; top: -1.4rem; height: calc(1.4rem - 6px);
+    width: 1.5px; background: var(--muted); transform: translateX(-50%);
+  }
+  .zone li + li::after {
+    content: ""; position: absolute; left: 50%; top: -7px; transform: translateX(-50%);
+    border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid var(--muted);
+  }
+  .node {
+    display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    padding: 0.55rem 0.7rem; line-height: 1.35;
+  }
+  .node strong { display: block; font-size: 0.95rem; font-weight: 600; }
+  .node span { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 0.15rem; }
+  .node.model { background: var(--accent-soft); border-color: var(--accent); }
+  .node.model strong { font-family: var(--mono); font-weight: 500; font-size: 0.88rem; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  figcaption { color: var(--muted); font-size: 0.88rem; margin-top: 0.75rem; }
+
+  /* Task run sequence */
+  ol.run { margin: 0; padding-left: 1.4rem; max-width: 40rem; }
+  ol.run li { padding-left: 0.3rem; margin-bottom: 0.35rem; }
+  ol.run li::marker { color: var(--accent); font-weight: 700; }
+
+  /* Decisions */
+  dl.decisions { margin: 0; max-width: 42rem; }
+  dl.decisions dt { font-weight: 700; margin-top: 1rem; }
+  dl.decisions dt:first-child { margin-top: 0; }
+  dl.decisions dd { margin: 0.2rem 0 0; color: var(--ink); }
+
+  ul.plain { margin: 0; padding-left: 1.2rem; max-width: 40rem; }
+  ul.plain li { margin-bottom: 0.35rem; }
+
+  .repo { margin-top: 2rem; font-weight: 600; }
+
+  /* Background */
+  section.background { border-top: 2px solid var(--ink); padding: 2.5rem 0 3rem; }
+  section.background h2 { font-size: 1.6rem; margin: 0 0 0.75rem; letter-spacing: -0.02em; }
+  section.background p { max-width: 40rem; margin: 0 0 1rem; }
+
+  /* Section blocks */
+  section.block { border-top: 2px solid var(--ink); padding: 2.5rem 0 3rem; }
+  section.block h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0 0 1.25rem; letter-spacing: -0.02em; line-height: 1.15; font-weight: 700; }
+  section.projects-head { padding-bottom: 0.5rem; }
+  section.projects-head h2 { margin-bottom: 0; }
+
+  /* About */
+  .about-body { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 640px) { .about-body.has-photo { grid-template-columns: 10rem 1fr; gap: 2rem; } }
+  .about-photo { width: 10rem; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: var(--zone); display: block; }
+  .about-text p { margin: 0 0 1rem; max-width: 38rem; }
+  .about-text .links { margin-top: 1.25rem; }
+
+  /* Tools */
+  dl.toolset { margin: 0; display: grid; gap: 0; max-width: 42rem; }
+  dl.toolset > div { display: grid; grid-template-columns: 1fr; gap: 0.1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
+  dl.toolset > div:first-child { border-top: 1px solid var(--line); }
+  @media (min-width: 640px) { dl.toolset > div { grid-template-columns: 13rem 1fr; gap: 1rem; } }
+  dl.toolset dt { font-weight: 700; }
+  dl.toolset dd { margin: 0; }
+
+  footer { border-top: 1px solid var(--line); padding: 1.5rem 0 3rem; color: var(--muted); font-size: 0.92rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="intro">
+    <h1 class="name">Ayomide<br>Alayande</h1>
+    <p class="lede">Data engineer. I build pipelines and warehouse models.</p>
+  </header>
+
+  <main>
+
+    <section class="block about" id="about">
+      <h2>About me</h2>
+      <div class="about-body has-photo">
+        <img class="about-photo" src="images/cropped_1.jpg" alt="Photo of Ayomide Alayande" width="160" height="160"
+             onerror="this.parentNode.classList.remove('has-photo'); this.remove();">
+        <div class="about-text">
+          <p>I'm a data engineer who came up through analytics. I know what it takes to turn raw, messy source data into numbers people can trust, and I've worked on both ends of that: the pipelines and models underneath, and the dashboards people actually read.</p>
+          <p>I have a master's in data science and a Google Cloud data engineering certification. I'm looking for hands-on Data Engineer and Analytics Engineer roles, where I can keep building pipelines and data models.</p>
+          <ul class="links">
+            <li><a href="https://github.com/jadesola98">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/ayomide-alayande-a5534216a/">LinkedIn</a></li>
+            <li><a href="mailto:alayandeay98@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block tools" id="tools">
+      <h2>Tools</h2>
+      <dl class="toolset">
+        <div><dt>Languages</dt><dd>SQL, Python</dd></div>
+        <div><dt>Warehouses and databases</dt><dd>Snowflake, Amazon Redshift, PostgreSQL, SQL Server</dd></div>
+        <div><dt>Transformation</dt><dd>dbt, Snowflake streams and tasks, pandas</dd></div>
+        <div><dt>Cloud</dt><dd>AWS (S3, Lambda, SQS, CloudWatch), Azure Data Factory</dd></div>
+        <div><dt>BI and apps</dt><dd>Power BI, Metabase, Streamlit, Plotly</dd></div>
+        <div><dt>Python libraries</dt><dd>Requests, SQLAlchemy</dd></div>
+        <div><dt>Version control</dt><dd>Git, GitHub</dd></div>
+      </dl>
+    </section>
+
+    <section class="block projects-head" id="projects">
+      <h2>Projects</h2>
+    </section>
+
+    <article class="project" id="snowflake">
+      <h3 class="project-title">Event-driven ETL from AWS S3 into Snowflake</h3>
+      <p class="summary">Retail CSV files dropped into S3 are picked up automatically and turned into a star schema: two dimensions and one fact table. Everything after the file lands runs inside Snowflake, using Snowpipe, streams and task chains, with no external orchestrator.</p>
+      <p class="stack">Built with AWS S3, AWS SQS, Snowflake (Snowpipe, streams, tasks, storage integration) and SQL.</p>
+
+      <figure style="margin:0">
+        <div class="flow two">
+          <div class="zone">
+            <p class="zone-name">AWS</p>
+            <p class="zone-note">Files arrive and S3 announces them.</p>
+            <ol>
+              <li><span class="node"><strong>CSV files</strong><span>customer, item and order extracts</span></span></li>
+              <li><span class="node"><strong>S3 landing/</strong><span>one prefix per entity</span></span></li>
+              <li><span class="node"><strong>SQS queue</strong><span>receives the S3 event notification</span></span></li>
+            </ol>
+          </div>
+          <div class="zone">
+            <p class="zone-name">Snowflake</p>
+            <p class="zone-note">Snowpipe listens to the queue; tasks do the rest.</p>
+            <ol>
+              <li><span class="node"><strong>Snowpipe</strong><span>auto-ingest copies each file into staging</span></span></li>
+              <li><span class="node"><strong>stg tables + streams</strong><span>streams record the newly landed rows</span></span></li>
+              <li><span class="node"><strong>raw tables</strong><span>MERGE: insert new rows, update existing ones</span></span></li>
+              <li><div class="pair">
+                <span class="node model"><strong>dim_customer</strong><span>Type 1, surrogate key</span></span>
+                <span class="node model"><strong>dim_item</strong><span>Type 1, surrogate key</span></span>
+              </div></li>
+              <li><span class="node model"><strong>fact_order</strong><span>one row per order date, customer and item</span></span></li>
+            </ol>
+          </div>
+        </div>
+        <figcaption>Data flow from file drop to star schema. Highlighted boxes are the business-ready tables in the <code>transformed</code> schema.</figcaption>
+      </figure>
+
+      <h4>What one run of a task tree does</h4>
+      <p class="summary">Each entity has its own task tree. It checks every minute but only runs when its stream has new data.</p>
+      <ol class="run">
+        <li>Pause the pipe, so no new files load mid-run.</li>
+        <li>Merge the stream into the raw table.</li>
+        <li>Load the dimension or fact table.</li>
+        <li>Truncate the staging table.</li>
+        <li>Resume the pipe.</li>
+      </ol>
+
+      <h4>Decisions I made</h4>
+      <dl class="decisions">
+        <dt>Pause the pipe for the length of each run</dt>
+        <dd>Staging is truncated at the end of every run. If Snowpipe kept loading, rows that arrived after the merge would be deleted by the truncate without ever being processed.</dd>
+        <dt>Deduplicate before merging</dt>
+        <dd>If an item appears more than once in a batch, <code>row_number()</code> partitioned by <code>item_id</code> keeps only the latest version, so the MERGE never sees conflicting rows.</dd>
+        <dt>Use streams as the trigger</dt>
+        <dd>Every task tree checks <code>system$stream_has_data()</code>, so warehouse compute is only used when new data has arrived.</dd>
+        <dt>Surrogate keys on the dimensions</dt>
+        <dd>The fact load joins raw orders to both dimensions and swaps natural IDs for surrogate keys.</dd>
+        <dt>Storage integration instead of access keys</dt>
+        <dd>Snowflake reads S3 through an IAM role, so no AWS credentials appear in the code.</dd>
+      </dl>
+
+      <h4>Known limitations</h4>
+      <ul class="plain">
+        <li>The fact table is rebuilt in full on every run. Fine at this size; a larger dataset would need an incremental load.</li>
+        <li>The fact load uses inner joins, so an order whose customer or item hasn't loaded yet is left out until it does.</li>
+        <li>Both dimensions are Type 1, so item price history isn't kept.</li>
+        <li>There are no automated tests yet. Row-count and null checks, or moving the transformations into dbt, would be next.</li>
+      </ul>
+
+      <p class="repo"><a href="https://github.com/jadesola98/snowflake-s3-event-driven-etl">View the code and README on GitHub</a></p>
+    </article>
+
+    <article class="project" id="premier-league">
+      <h3 class="project-title">Premier League standings: API to PostgreSQL to Streamlit</h3>
+      <p class="summary">A Python pipeline that pulls Premier League data from API-Football, cleans it with pandas and loads it into PostgreSQL. A SQL view ranks the teams, and a Streamlit dashboard reads from that view.</p>
+      <p class="stack">Built with Python, Requests, pandas, SQLAlchemy, PostgreSQL, Streamlit and Plotly.</p>
+
+      <figure style="margin:0">
+        <div class="flow three">
+          <div class="zone">
+            <p class="zone-name">Python</p>
+            <p class="zone-note">Extract, transform, load.</p>
+            <ol>
+              <li><span class="node"><strong>API-Football</strong><span>requested via RapidAPI</span></span></li>
+              <li><span class="node"><strong>Transform</strong><span>flatten and clean with pandas</span></span></li>
+              <li><span class="node"><strong>Load</strong><span>SQLAlchemy, one transaction</span></span></li>
+            </ol>
+          </div>
+          <div class="zone">
+            <p class="zone-name">PostgreSQL</p>
+            <p class="zone-note">Storage and ranking logic.</p>
+            <ol>
+              <li><span class="node"><strong>Standings table</strong><span>one row per team</span></span></li>
+              <li><span class="node model"><strong>ranked view</strong><span>points, then goal difference, then goals scored</span></span></li>
+            </ol>
+          </div>
+          <div class="zone">
+            <p class="zone-name">Streamlit</p>
+            <p class="zone-note">What a viewer sees.</p>
+            <ol>
+              <li><span class="node"><strong>Cached query</strong><span>reads the ranked view</span></span></li>
+              <li><span class="node"><strong>Plotly dashboard</strong><span>league table and charts</span></span></li>
+            </ol>
+          </div>
+        </div>
+        <figcaption>Data flow from the API to the dashboard.</figcaption>
+      </figure>
+
+      <h4>Decisions I made</h4>
+      <dl class="decisions">
+        <dt>Credentials from environment variables</dt>
+        <dd>The API key and database connection details are read from the environment, never written in the code.</dd>
+        <dt>Fail cleanly</dt>
+        <dd>Errors are caught and the script exits with a clear message instead of a raw stack trace.</dd>
+        <dt>Load in a single transaction</dt>
+        <dd>A failure part-way through doesn't leave a half-written table behind.</dd>
+        <dt>Rank in SQL, not in the dashboard</dt>
+        <dd>The ranking rules live in one view, so any tool that reads the database gets the same table.</dd>
+        <dt>Logging and a cached dashboard query</dt>
+        <dd>Each run logs what it did, and Streamlit caches the query so the page doesn't hit the database on every interaction.</dd>
+      </dl>
+
+      <p class="repo"><a href="https://github.com/jadesola98/premier-league-etl-pipeline">View the code and README on GitHub</a></p>
+    </article>
 
 
+  </main>
 
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
+  <footer>
+    <p>More projects on <a href="https://github.com/jadesola98">github.com/jadesola98</a>. Get in touch by <a href="mailto:alayandeay98@gmail.com">email</a> or on <a href="https://www.linkedin.com/in/ayomide-alayande-a5534216a/">LinkedIn</a>.</p>
+  </footer>
 
-						</ul>
-						<ul class="icons">
-							<li><a href="https://www.linkedin.com/in/ayomide-alayande-a5534216a/" class="icon brands alt fa-linkedin"><span class="label">linkedin</span></a></li>
-							<li><a href="https://github.com/jadesola98" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</nav>
-
-				<!-- Main -->
-					<div id="main">
-
-						<!-- Featured Post -->
-							<article class="post featured">
-								<header class="major">
-									<h2><a href="#">ABOUT ME<br/></a></h2>	
-								</header>
-								
-								
-								<div class="headliner">
-									<div>
-										<img src="images/cropped_1.jpg" alt=""  class="try-image" />
-									</div>
-									  
-									<p class="try-image-content">
-									I am a highly skilled and motivated Business Intelligence Analyst with over four (4) years
-									of experience in delivering insightful and actionable data-driven solutions
-									to drive business growth and improve operational efficiency. Proficient in
-									SQL, Tableau, Power BI, and Python with experience in designing and
-									implementing data warehousing and ETL solutions, creating dashboards,
-									reports, and data visualizations, and conducting data analysis to uncover
-									trends and patterns. Adept at effectively communicating complex data
-									and analysis results to both technical and non-technical stakeholders,
-									with a strong analytical capacity and problem-solving skills.
-									</p>
-								  
-								</div>
-								<ul class="actions special">
-
-								</ul>
-							</article>
-							<!-- Tools -->
-							<article class="post featured">
-								<header class="major">
-									<h2><a href="#">TOOLS<br/></a></h2>	
-								</header>
-								
-								
-								<div class="tool-set">
-									<div class="tool-set-col-1">
-										<div class="tool">
-											<img src='./images/tools/database.svg' class='ico'/>
-											<h4>SQL</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/python.svg' class='ico'/>
-											<h4>Python</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/r.svg' class='ico'/>
-											<h4>R</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/pyspark.svg' class='ico'/>
-											<h4>Pyspark</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/tableau.svg' class='ico'/>
-											<h4>Tableau</h4>
-										</div>
-									</div>
-									<div class="tool-set-col-2">
-										<div class="tool">
-											<img src='./images/tools/powerbi.svg' class='ico'/>
-											<h4>Power BI</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/metabase.svg' class='ico'/>
-											<h4>Metabase</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/prefect.svg' class='ico'/>
-											<h4>Prefect</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/aws.svg' class='ico'/>
-											<h4>AWS</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/gcp.svg' class='ico'/>
-											<h4>GCP</h4>
-										</div>	
-									</div>
-									<div class="tool-set-col-3">
-										<div class="tool">
-											<img src='./images/tools/airflow.svg' class='ico'/>
-											<h4>Airflow</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/dbt.svg' class='ico'/>
-											<h4>dbt</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/docker.svg' class='ico'/>
-											<h4>Docker</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/git.svg' class='ico'/>
-											<h4>Git</h4>
-										</div>
-										<div class="tool">
-											<img src='./images/tools/airbyte.svg' class='ico'/>
-											<h4>Airbyte</h4>
-										</div>
-									</div>
-									
-								</div>
-
-							</article>
-							
-						<!-- Posts -->
-						<article class="post featured" id="project-head">
-							<header class="major">
-								<h2><a href="#">PROJECTS</a></h2>	
-							</header>
-						</article>
-							<section class="posts">
-								<article>
-									<header>
-										<h2><a href="#">Exploratory Data Analysis with Python<br />
-										</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/netflix.png" alt="" /></a>
-									<p>In this project I used Python to explore the world's leading streaming entertainment service 'Netflix'.</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/jadesola98/Exploratory-Data-Analysis-with-Python/blob/main/zerotopandas-course-project.ipynb" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2><a href="#">Batch data ingestion using Python<br />
-										</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/batch.png" alt="" /></a>
-									<p>In this project I ingested data in batches using iterators in python into a postgres database that was provisioned using docker</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/jadesola98/Batch-data-ingestion-using-Python.git" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2><a href="#">End to End ETL using snowflake<br />
-										</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/snowflake.png" alt="" /></a>
-									<p>In this project I leveraged the objects within snowflake to carried out an end-to-end etl pipeline </p>
-									<ul class="actions special">
-										<li><a href="https://github.com/jadesola98/End-to-End-ETL-using-snowflake.git" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2><a href="#">Crime Data Ingestion and Analytics System<br />
-										</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/download.png" alt="" /></a>
-									<p>In this project I extracted data from Chicago data portal using the API, performed some transformations using dbt and stored the output in a database</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/jadesola98/crime_project.git" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2><a href="#">Youtube Webscrapping<br />
-										</a></h2>
-									</header>
-									<a href="#" class="image fit"><img id="ytb" src="images/Youtube.png" alt="" /></a>
-									<p>In this project I used Python to extract data from Youtube, performed some data transformation, loaded the data into a database and visualized the data using Power BI.</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/jadesola98/youtube-webscrapping-project.git" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<h2><a href="#">Danny Ma SQL Challenge<br />
-										</a></h2>
-									</header>
-									<a href="#" class="image fit"><img id="danny" src="images/danny.png" alt="" /></a>
-									<p>In this project I developed queries to tackle various SQL challenges, effectively demonstrating proficiency in data manipulation and query optimization, emphasizing my strong SQL skills</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/jadesola98/8week_sql_challenge.git" class="button">View Project</a></li>
-									</ul>
-								</article>
-
-							</section>
-						</section>
-						<article class="post featured" id="project-head-1">
-							<header class="major">
-								<h2><a href="#">CONTACT ME</a></h2>	
-							</header>
-						</article>
-						<section class="split contact">
-							<section class="alt">
-								<h3>Location</h3>
-								<p>Manchester, United Kingdom</p>
-							</section>
-							<section>
-								<h3>Phone</h3>
-								<p>+447721494174</p>
-							</section>
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="mailto:alayandeay98@gmail.com" class="icon solid alt fa-envelope"><span class="label">envelope</span></a></li>
-									<li><a href="https://www.linkedin.com/in/ayomide-alayande-a5534216a/" class="icon brands alt fa-linkedin"><span class="label">linkedin</span></a></li>
-									<li><a href="https://github.com/jadesola98" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</div>
-					
-
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>DATA ANALYST</li><li>DATA ENGINEER</li></ul>
-						<ul><li>&copy; AYOMIDE JADESOLA ALAYANDE</li></ul>
-					</div>
-
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+</div>
+</body>
 </html>
