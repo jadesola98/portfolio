@@ -26,6 +26,10 @@
     --py-bg: #FFF7D1; --py-line: #E0CB66;
     --pg-bg: #E6ECFA; --pg-line: #A3B4E3;
     --st-bg: #FDE7EA; --st-line: #EDA3AD;
+    --gcp-bg: #E2F5EB; --gcp-line: #8DCDA9;
+    --dbt-bg: #FDEBE3; --dbt-line: #EBA486;
+    --dock-bg: #E0F1FA; --dock-line: #86C3E3;
+    --pbi-bg: #EFE9FB; --pbi-line: #B9A5E6;
     --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
     box-sizing: border-box;
@@ -40,7 +44,9 @@
       --band: #192C70; --band-ink: #F2F5FF; --band-soft: #B9C7F5;
       --aws-bg: #2D2417; --aws-line: #6E5430; --snow-bg: #15293A; --snow-line: #2E5B79;
       --py-bg: #2A2814; --py-line: #635A26; --pg-bg: #1A2341; --pg-line: #3A4E8C;
-      --st-bg: #321A1E; --st-line: #73353F;
+      --st-bg: #321A1E; --st-line: #73353F; --gcp-bg: #15291F; --gcp-line: #2F6748;
+      --dbt-bg: #31201A; --dbt-line: #74402C; --dock-bg: #142836; --dock-line: #2C5C78;
+      --pbi-bg: #241D36; --pbi-line: #54447F;
     }
   }
   :root[data-theme="dark"] {
@@ -49,7 +55,9 @@
       --band: #192C70; --band-ink: #F2F5FF; --band-soft: #B9C7F5;
       --aws-bg: #2D2417; --aws-line: #6E5430; --snow-bg: #15293A; --snow-line: #2E5B79;
       --py-bg: #2A2814; --py-line: #635A26; --pg-bg: #1A2341; --pg-line: #3A4E8C;
-      --st-bg: #321A1E; --st-line: #73353F;
+      --st-bg: #321A1E; --st-line: #73353F; --gcp-bg: #15291F; --gcp-line: #2F6748;
+      --dbt-bg: #31201A; --dbt-line: #74402C; --dock-bg: #142836; --dock-line: #2C5C78;
+      --pbi-bg: #241D36; --pbi-line: #54447F;
   }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
   *, *::before, *::after { box-sizing: inherit; }
@@ -81,6 +89,7 @@
   section.projects-head + article.project { border-top: 0; padding-top: 1.5rem; }
   .project h3.project-title { font-size: clamp(1.35rem, 3.2vw, 1.7rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 0.75rem; font-weight: 700; }
   .project .summary { max-width: 40rem; margin: 0 0 0.75rem; }
+  .credit { max-width: 40rem; margin: 0 0 0.9rem; padding: 0.5rem 0 0.5rem 0.9rem; border-left: 3px solid var(--accent); color: var(--muted); font-size: 0.95rem; }
   .stack { color: var(--muted); font-size: 0.95rem; margin: 0 0 1.75rem; }
   .project h4 { color: var(--accent); font-size: 1.15rem; margin: 2.25rem 0 0.75rem; font-weight: 700; letter-spacing: -0.01em; }
 
@@ -96,6 +105,10 @@
   .z-py { background: var(--py-bg); border-color: var(--py-line); }
   .z-pg { background: var(--pg-bg); border-color: var(--pg-line); }
   .z-st { background: var(--st-bg); border-color: var(--st-line); }
+  .z-gcp { background: var(--gcp-bg); border-color: var(--gcp-line); }
+  .z-dbt { background: var(--dbt-bg); border-color: var(--dbt-line); }
+  .z-dock { background: var(--dock-bg); border-color: var(--dock-line); }
+  .z-pbi { background: var(--pbi-bg); border-color: var(--pbi-line); }
   .zone-name { font-weight: 700; font-size: 0.95rem; margin: 0 0 0.15rem; }
   .zone-note { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.9rem; line-height: 1.4; }
   .zone ol { list-style: none; margin: 0; padding: 0; }
@@ -117,6 +130,9 @@
   .node span { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 0.15rem; }
   .node.model { background: var(--accent-soft); border-color: var(--accent); }
   .node.model strong { font-family: var(--mono); font-weight: 500; font-size: 0.88rem; }
+  .node.model.label strong { font-family: var(--sans); font-weight: 600; font-size: 0.95rem; }
+  .zone ol.side-by-side li + li { margin-top: 0.5rem; }
+  .zone ol.side-by-side li + li::before, .zone ol.side-by-side li + li::after { display: none; }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
   figcaption { color: var(--muted); font-size: 0.88rem; margin-top: 0.75rem; }
 
@@ -168,7 +184,7 @@
 <header class="intro">
   <div class="wrap">
     <h1 class="name">Ayomide<br>Alayande</h1>
-    <p class="lede">I am a Data engineer. I build pipelines and warehouse models.</p>
+    <p class="lede">Data engineer. I build pipelines and warehouse models with SQL and Python.</p>
   </div>
 </header>
 
@@ -195,9 +211,10 @@
       <h2>Tools</h2>
       <dl class="toolset">
         <div><dt>Languages</dt><dd>SQL, Python</dd></div>
-        <div><dt>Warehouses and databases</dt><dd>Snowflake, Amazon Redshift, PostgreSQL, SQL Server</dd></div>
+        <div><dt>Warehouses and databases</dt><dd>Snowflake, BigQuery, Amazon Redshift, PostgreSQL, SQL Server</dd></div>
         <div><dt>Transformation</dt><dd>dbt, Snowflake streams and tasks, pandas</dd></div>
         <div><dt>BI and apps</dt><dd>Power BI, Metabase, Streamlit, Plotly</dd></div>
+        <div><dt>Containers</dt><dd>Docker, Docker Compose</dd></div>
         <div><dt>Version control</dt><dd>Git, GitHub</dd></div>
       </dl>
     </section>
@@ -275,6 +292,118 @@
       <p class="repo"><a href="https://github.com/jadesola98/snowflake-s3-event-driven-etl">View the code and README on GitHub</a></p>
     </article>
 
+    <article class="project" id="northwind">
+      <h3 class="project-title">Northwind data warehouse with dbt and BigQuery</h3>
+      <p class="summary">A dbt project that turns the Northwind sample database (a wholesale business's orders, purchasing and inventory) into a tested, documented star schema on BigQuery, with wide "one big table" models on top for reporting.</p>
+      <p class="credit">Built while following the Analytics Engineering Bootcamp on Udemy by Rahul Prasad and David Badovinac. The fixes, tests and findings below are what I changed and added afterwards.</p>
+      <p class="stack">Built with dbt, Google BigQuery and SQL.</p>
+
+      <figure style="margin:0">
+        <div class="flow two">
+          <div class="zone z-gcp">
+            <p class="zone-name">BigQuery source</p>
+            <p class="zone-note">The raw Northwind tables.</p>
+            <ol>
+              <li><span class="node"><strong>d1_northwind</strong><span>19 source tables</span></span></li>
+            </ol>
+          </div>
+          <div class="zone z-dbt">
+            <p class="zone-name">dbt</p>
+            <p class="zone-note">Three layers, each in its own schema.</p>
+            <ol>
+              <li><span class="node"><strong>Staging</strong><span>19 views, one per source table</span></span></li>
+              <li><div class="pair">
+                <span class="node model label"><strong>3 facts</strong><span>sales, purchase order, inventory</span></span>
+                <span class="node model label"><strong>5 dimensions</strong><span>customer, employee, product, supplier, date</span></span>
+              </div></li>
+              <li><span class="node model label"><strong>3 one big tables</strong><span>pre-joined for dashboards</span></span></li>
+            </ol>
+          </div>
+        </div>
+        <figcaption>From source tables to a Kimball-style star schema, then wide reporting tables built from it.</figcaption>
+      </figure>
+
+      <h4>Decisions I made</h4>
+      <dl class="decisions">
+        <dt>Fixed the purchase order fact's grain</dt>
+        <dd>It originally joined purchase orders to sales lines on product ID alone, which duplicated each purchase line once per customer who'd bought that product. It's now one row per purchase order line, joined to a new supplier dimension.</dd>
+        <dt>Declared a grain for every fact</dt>
+        <dd>Each fact is deduplicated on its true primary key, keeping the most recent record where a date exists.</dd>
+        <dt>Built the one big tables from the star schema</dt>
+        <dd>The star schema stays the single source of truth, so the wide reporting tables can never disagree with it. A custom test checks the sales table has exactly as many rows as the fact it's built from.</dd>
+        <dt>Tests on every key</dt>
+        <dd><code>unique</code> and <code>not_null</code> on every key, <code>relationships</code> tests from each fact to its dimensions, and every warehouse model documented in <code>schema.yml</code>.</dd>
+      </dl>
+
+      <h4>What the tests caught</h4>
+      <ul class="plain">
+        <li>Every fact row failed its join to the date dimension. The calendar started in 2014, but the orders are from 2006. I extended it back to 2005, and fixed an inverted weekend flag and a wrong day-of-year column while I was there.</li>
+        <li>Two sales lines have a quantity of 0. They're genuine source records, so I kept them and a custom test flags them as a warning instead of silently dropping them.</li>
+      </ul>
+
+      <h4>Known limitations</h4>
+      <ul class="plain">
+        <li>Products with more than one supplier are filtered out in staging. A product–supplier bridge table would bring them back.</li>
+        <li>Dimensions are Type 1. dbt snapshots would add history.</li>
+        <li>Every model is fully rebuilt on each run. Incremental models would suit larger fact tables.</li>
+      </ul>
+
+      <p class="repo"><a href="https://github.com/jadesola98/northwind-dbt-bigquery-warehouse">View the code and README on GitHub</a></p>
+    </article>
+
+    <article class="project" id="nyc-taxi">
+      <h3 class="project-title">NYC taxi batch ingestion with Python, PostgreSQL and Docker</h3>
+      <p class="summary">A containerised batch pipeline that downloads monthly NYC taxi trip files, loads them into PostgreSQL in chunks, and records every run. One command, <code>docker compose up</code>, starts the database, pgAdmin and the loader together.</p>
+      <p class="credit">Started from week 1 of the DataTalksClub Data Engineering Zoomcamp. The original script no longer ran because its data source had been taken down; the decisions below are what I rebuilt afterwards.</p>
+      <p class="stack">Built with Python, pandas, SQLAlchemy, PostgreSQL, Docker, Docker Compose and pgAdmin.</p>
+
+      <figure style="margin:0">
+        <div class="flow two">
+          <div class="zone">
+            <p class="zone-name">Source</p>
+            <p class="zone-note">Archived monthly trip files.</p>
+            <ol>
+              <li><span class="node"><strong>NYC taxi files</strong><span>one compressed CSV per month</span></span></li>
+            </ol>
+          </div>
+          <div class="zone z-dock">
+            <p class="zone-name">Docker Compose</p>
+            <p class="zone-note">The loader waits for a database health check before starting.</p>
+            <ol>
+              <li><span class="node"><strong>Loader container</strong><span>streams each file in 100,000-row chunks</span></span></li>
+              <li><div class="pair">
+                <span class="node model"><strong>yellow_taxi_trips</strong><span>one transaction per month</span></span>
+                <span class="node model"><strong>ingestion_runs</strong><span>one row per run</span></span>
+              </div></li>
+              <li><span class="node"><strong>pgAdmin</strong><span>browse and verify the load</span></span></li>
+            </ol>
+          </div>
+        </div>
+        <figcaption>Each month loads independently, and every attempt is logged in the database.</figcaption>
+      </figure>
+
+      <h4>Decisions I made</h4>
+      <dl class="decisions">
+        <dt>Safe to re-run</dt>
+        <dd>Loading a month first deletes that month's existing rows inside the same transaction. Running a month twice replaces it instead of duplicating it, and a failed load rolls back completely.</dd>
+        <dt>Stream in chunks</dt>
+        <dd>A month can be 1.4 million rows, so the file is read 100,000 rows at a time with explicit column types, and never sits in memory all at once.</dd>
+        <dt>A run log in the database</dt>
+        <dd><code>ingestion_runs</code> records the month, row count, status, timings and any error message. The script also exits with an error code if a month fails, so a scheduler can tell.</dd>
+        <dt>No credentials on the command line</dt>
+        <dd>Database settings come from a <code>.env</code> file kept out of the repo, instead of passwords typed into commands where they end up in shell history.</dd>
+      </dl>
+
+      <h4>Known limitations</h4>
+      <ul class="plain">
+        <li>It runs on demand. Scheduling with cron or an orchestrator would load each new month automatically.</li>
+        <li>It loads raw data only. The verification queries report issues such as mis-dated trips but don't fix them.</li>
+        <li>Loading through pandas is slow for big months. PostgreSQL's <code>COPY</code> would be much faster.</li>
+      </ul>
+
+      <p class="repo"><a href="https://github.com/jadesola98/nyc-taxi-docker-ingestion">View the code and README on GitHub</a></p>
+    </article>
+
     <article class="project" id="premier-league">
       <h3 class="project-title">Premier League standings: API to PostgreSQL to Streamlit</h3>
       <p class="summary">A Python pipeline that pulls Premier League data from API-Football, cleans it with pandas and loads it into PostgreSQL. A SQL view ranks the teams, and a Streamlit dashboard reads from that view.</p>
@@ -327,6 +456,64 @@
 
       <p class="repo"><a href="https://github.com/jadesola98/premier-league-etl-pipeline">View the code and README on GitHub</a></p>
     </article>
+
+    <article class="project" id="youtube">
+      <h3 class="project-title">YouTube channel analytics: API to PostgreSQL to Power BI</h3>
+      <p class="summary">A Python pipeline that pulls channel and video statistics for five data-education YouTube channels from the YouTube Data API, loads them into PostgreSQL, and feeds a two-page Power BI dashboard comparing their growth and engagement: 2,274 videos in total, collected in 2022.</p>
+      <p class="stack">Built with Python, YouTube Data API v3, pandas, SQLAlchemy, PostgreSQL and Power BI.</p>
+
+      <figure style="margin:0">
+        <div class="flow three">
+          <div class="zone z-py">
+            <p class="zone-name">Python</p>
+            <p class="zone-note">Extract, transform, load.</p>
+            <ol>
+              <li><span class="node"><strong>YouTube Data API</strong><span>videos fetched 50 per request</span></span></li>
+              <li><span class="node"><strong>Transform</strong><span>text to numbers and dates</span></span></li>
+              <li><span class="node"><strong>Load</strong><span>both tables in one transaction</span></span></li>
+            </ol>
+          </div>
+          <div class="zone z-pg">
+            <p class="zone-name">PostgreSQL</p>
+            <p class="zone-note">Two tables, joined on channel ID.</p>
+            <ol class="side-by-side">
+              <li><span class="node model"><strong>channel_data</strong><span>one row per channel</span></span></li>
+              <li><span class="node model"><strong>video_data</strong><span>one row per video</span></span></li>
+            </ol>
+          </div>
+          <div class="zone z-pbi">
+            <p class="zone-name">Power BI</p>
+            <p class="zone-note">Two report pages, filtered by year, month and channel.</p>
+            <ol class="side-by-side">
+              <li><span class="node"><strong>Channel analysis</strong><span>videos, subscribers, uploads per year</span></span></li>
+              <li><span class="node"><strong>Video analysis</strong><span>most viewed, liked and commented</span></span></li>
+            </ol>
+          </div>
+        </div>
+        <figcaption>Data flow from the API to the dashboard.</figcaption>
+      </figure>
+
+      <h4>Decisions I made</h4>
+      <dl class="decisions">
+        <dt>Batched API calls</dt>
+        <dd>The API returns at most 50 items per request, so video details are fetched 50 at a time to keep daily quota use low.</dd>
+        <dt>Handle hidden stats</dt>
+        <dd>Creators can hide like counts or turn off comments. Those values come back missing and are stored as nulls instead of crashing the run.</dd>
+        <dt>Atomic refresh</dt>
+        <dd>Both tables are replaced in one transaction, so the dashboard never reads a half-finished refresh.</dd>
+        <dt>Credentials outside the code</dt>
+        <dd>The API key and database details live in a <code>.env</code> file kept out of the repo.</dd>
+      </dl>
+
+      <h4>Known limitations</h4>
+      <ul class="plain">
+        <li>Each run replaces the tables, so the dashboard shows a single snapshot, not growth over time. Appending a dated snapshot each run would allow trends.</li>
+        <li>It runs on demand, and the channel list is fixed in the script.</li>
+      </ul>
+
+      <p class="repo"><a href="https://github.com/jadesola98/youtube-channel-analytics">View the code and README on GitHub</a></p>
+    </article>
+
 
 
   </main>
